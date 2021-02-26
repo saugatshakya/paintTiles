@@ -82,70 +82,73 @@ class _GameState extends State<Game> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Row(
-        children: [
-          GestureDetector(
-              onTap: () {
-                setState(() {
-                  lane = 0;
-                });
-              },
-              child: Lane()),
-          GestureDetector(
-              onTap: () {
-                setState(() {
-                  lane = 1;
-                });
-              },
-              child: Lane())
-        ],
-      ),
-      Positioned(
-        top: b1pos,
-        left: b1lane == 0 ? 0 : MediaQuery.of(context).size.width * 0.5,
-        child: Block(
-          color: color[b1color],
+    return Material(
+      color: Colors.grey[300],
+      child: Stack(children: [
+        Positioned(
+          top: b1pos,
+          left: b1lane == 0 ? 0 : MediaQuery.of(context).size.width * 0.5,
+          child: Block(
+            color: color[b1color],
+          ),
         ),
-      ),
-      Positioned(
-        top: b2pos,
-        left: b2lane == 0 ? 0 : MediaQuery.of(context).size.width * 0.5,
-        child: Block(color: color[b2color]),
-      ),
-      Positioned(
-          bottom: 0,
-          left: lane == 0 ? 0 : MediaQuery.of(context).size.width * 0.5,
-          child: GestureDetector(
-              onTap: () {
-                setState(() {
-                  i++;
-                  i == 4 ? i = 0 : i = i;
-                });
-              },
-              child: Player(color: color[i]))),
-      Positioned(
-          top: 20,
-          left: MediaQuery.of(context).size.width * 0.3,
-          child: Material(
-              color: Colors.white,
-              child: Text(
-                "Score: " + point.toString(),
-                style: TextStyle(fontSize: 53),
+        Positioned(
+          top: b2pos,
+          left: b2lane == 0 ? 0 : MediaQuery.of(context).size.width * 0.5,
+          child: Block(color: color[b2color]),
+        ),
+        Row(
+          children: [
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    lane = 0;
+                  });
+                },
+                child: Lane()),
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    lane = 1;
+                  });
+                },
+                child: Lane())
+          ],
+        ),
+        Positioned(
+            bottom: 0,
+            left: lane == 0 ? 0 : MediaQuery.of(context).size.width * 0.5,
+            child: GestureDetector(
+                onTap: () {
+                  setState(() {
+                    i++;
+                    i == 4 ? i = 0 : i = i;
+                  });
+                },
+                child: Player(color: color[i]))),
+        playing
+            ? Container()
+            : Center(
+                child: Material(
+                    child: GestureDetector(
+                onTap: () {
+                  startGame();
+                },
+                child: Text(
+                  "Tap to play",
+                  style: TextStyle(fontSize: 55),
+                ),
               ))),
-      playing
-          ? Container()
-          : Center(
-              child: Material(
-                  child: GestureDetector(
-              onTap: () {
-                startGame();
-              },
-              child: Text(
-                "Tap to play",
-                style: TextStyle(fontSize: 55),
-              ),
-            )))
-    ]);
+        Positioned(
+            top: 20,
+            left: MediaQuery.of(context).size.width * 0.25,
+            child: Material(
+                color: Colors.white,
+                child: Text(
+                  "Score: " + point.toString(),
+                  style: TextStyle(fontSize: 53),
+                ))),
+      ]),
+    );
   }
 }
